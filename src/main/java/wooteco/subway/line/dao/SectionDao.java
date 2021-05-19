@@ -30,16 +30,13 @@ public class SectionDao {
         this.stationDao = stationDao;
     }
 
-    private RowMapper<Section> rowMapper(List<Long> stationIds) {
+    private RowMapper<Section> rowMapper() {
         return (rs, rowNum) -> {
             final long id = rs.getLong("id");
             final long upStationId = rs.getLong("up_station_id");
             final long downStationId = rs.getLong("down_station_id");
             final int distance = rs.getInt("distance");
 
-            if (!stationIds.contains(upStationId) || !stationIds.contains(downStationId)) {
-                throw new NotFoundStationException("해당하는 Id의 지하철역이 없습니다.");
-            }
             final Station upStation = stationDao.findById(upStationId);
             final Station downStation = stationDao.findById(downStationId);
             return new Section(id, upStation, downStation, distance);
@@ -76,8 +73,8 @@ public class SectionDao {
         simpleJdbcInsert.executeBatch(batchValues.toArray(new Map[sections.size()]));
     }
 
-    public List<Section> findAll(List<Long> stationIds) {
+    public List<Section> findAll() {
         String sql = "select s.id, s.line_id, s.up_station_id, s.down_station_id, s.distance from Section s";
-        return jdbcTemplate.query(sql, rowMapper(stationIds));
+        return jdbcTemplate.query(sql, rowMapper());
     }
 }

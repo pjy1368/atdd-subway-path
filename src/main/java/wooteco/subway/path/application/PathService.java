@@ -45,24 +45,20 @@ public class PathService {
 
     private WeightedMultigraph<Station, DefaultWeightedEdge> drawGraph() {
         final WeightedMultigraph<Station, DefaultWeightedEdge> graph = new WeightedMultigraph<>(DefaultWeightedEdge.class);
-        final List<Station> stations = addVertices(graph);
-        setEdgeWeights(graph, stations);
+        addVertices(graph);
+        setEdgeWeights(graph);
         return graph;
     }
 
-    private List<Station> addVertices(WeightedMultigraph<Station, DefaultWeightedEdge> graph) {
+    private void addVertices(WeightedMultigraph<Station, DefaultWeightedEdge> graph) {
         final List<Station> stations = stationDao.findAll();
         for (final Station station : stations) {
             graph.addVertex(station);
         }
-        return stations;
     }
 
-    private void setEdgeWeights(WeightedMultigraph<Station, DefaultWeightedEdge> graph, List<Station> stations) {
-        final List<Long> stationIds = stations.stream()
-            .map(Station::getId)
-            .collect(Collectors.toList());
-        final List<Section> sections = sectionDao.findAll(stationIds);
+    private void setEdgeWeights(WeightedMultigraph<Station, DefaultWeightedEdge> graph) {
+        final List<Section> sections = sectionDao.findAll();
         for (final Section section : sections) {
             graph.setEdgeWeight(graph.addEdge(section.getUpStation(), section.getDownStation()), section.getDistance());
         }
