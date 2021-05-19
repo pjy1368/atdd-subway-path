@@ -1,9 +1,6 @@
 package wooteco.subway.station;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static wooteco.subway.auth.AuthAcceptanceTest.AGE;
-import static wooteco.subway.auth.AuthAcceptanceTest.EMAIL;
-import static wooteco.subway.auth.AuthAcceptanceTest.PASSWORD;
 import static wooteco.subway.auth.AuthAcceptanceTest.로그인되어_있음;
 import static wooteco.subway.auth.AuthAcceptanceTest.회원_등록되어_있음;
 
@@ -25,6 +22,10 @@ import wooteco.subway.station.dto.StationResponse;
 
 @DisplayName("지하철역 관련 기능")
 public class StationAcceptanceTest extends AcceptanceTest {
+
+    private static final String EMAIL = "email@email.com";
+    private static final String PASSWORD = "password";
+    private static final Integer AGE = 20;
 
     private static final String 강남역 = "강남역";
     private static final String 역삼역 = "역삼역";
