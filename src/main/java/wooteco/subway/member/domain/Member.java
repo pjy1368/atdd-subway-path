@@ -51,7 +51,7 @@ public class Member {
         return age;
     }
 
-    public boolean hasSameMemberInfo(Member member) {
+    public boolean hasSamePassword(Member member) {
         return password.equals(member.password);
     }
 }
